@@ -11,16 +11,16 @@ public class Main {
     public static void main(String[] args) {
 
         //---variables declaration---//
-        String src;             //.json file source
+        String path;             //.json file source
         Store store;            //store object
         Order[] orders;         //orders array
 
         //---this block loads store configuration and orders list---//
         try {
-            src = "E:\\Programming\\Java\\zadanie-java\\self-test-data\\advanced-allocation\\store.json";
-            store = parse(src, Store.class);
-            src = "E:\\Programming\\Java\\zadanie-java\\self-test-data\\advanced-allocation\\orders.json";
-            orders = parse(src, Order[].class);
+            path = "store.json path";               //replace path to store.json
+            store = parse(path, Store.class);
+            path = "orders.json path";              //replace path to orders.json
+            orders = parse(path, Order[].class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
