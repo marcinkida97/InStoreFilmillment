@@ -21,10 +21,7 @@ public class Order {
     private LocalTime completeBy;
     private transient LocalTime orderPickingStartTime;
 
-    public static LocalTime calculateOrderPickingStartTime(LocalTime completeBy, Duration pickingTime) {
-        LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), completeBy);
-        LocalDateTime resultDateTime = dateTime.minus(pickingTime);
-        LocalTime resultTime = resultDateTime.toLocalTime();
-        return resultTime;
+    public void setOrderPickingStartTime() {
+        this.orderPickingStartTime = this.completeBy.minus(this.pickingTime);
     }
 }

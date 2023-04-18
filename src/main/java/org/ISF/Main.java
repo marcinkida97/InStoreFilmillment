@@ -25,9 +25,8 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        for (Order order : orders) {
-            order.setOrderPickingStartTime(Order.calculateOrderPickingStartTime(order.getCompleteBy(), order.getPickingTime()));
-        }
+        //---calculating when picker must start to pick order to finish it on time---//
+        Arrays.stream(orders).forEach(Order::setOrderPickingStartTime);
 
         //---sort by pickingtime---//
         //---sort by picking start time---//
