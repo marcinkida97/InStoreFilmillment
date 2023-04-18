@@ -21,7 +21,7 @@ public class Json {
         return defaultObjectMapper;
     }
 
-    public static String readJson(String src) {
+    public static String jsonFileToString(String src) {
         BufferedReader reader;
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -42,13 +42,17 @@ public class Json {
         return stringBuilder.toString();
     }
 
-    public static JsonNode parse(String src) throws JsonProcessingException {
+    public static JsonNode stringToJsonNode(String src) throws JsonProcessingException {
 
         return objectMapper.readTree(src);
     }
 
-    public static <T> T fromJson(JsonNode node, Class<T> clazz) throws JsonProcessingException {
+    public static <T> T jsonNodeToObject(JsonNode node, Class<T> clazz) throws JsonProcessingException {
 
         return objectMapper.treeToValue(node, clazz);
+    }
+
+    public static <T> T parse(String src, Class<T> clazz) throws JsonProcessingException {
+        return (jsonNodeToObject(stringToJsonNode(jsonFileToString(src)), clazz));
     }
 }

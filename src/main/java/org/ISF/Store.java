@@ -10,8 +10,6 @@ import lombok.Setter;
 import java.time.LocalTime;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class Store {

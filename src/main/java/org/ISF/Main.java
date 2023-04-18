@@ -1,39 +1,26 @@
 package org.ISF;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.time.LocalTime;
 import java.util.*;
+
+import static org.ISF.Json.parse;
 
 public class Main {
     public static void main(String[] args) {
 
         //---variables declaration---//
         String src;             //.json file source
-        String jsonString;      //file converted to json string
-        JsonNode node;          //json node
         Store store;            //store object
         Order[] orders;         //orders array
 
-        //---this block loads store configuration---//
+        //---this block loads store configuration and orders list---//
         try {
-            //src = "E:\\Programming\\Java\\zadanie-java\\self-test-data\\advanced-optimize-order-count\\store.json";
             src = "E:\\Programming\\Java\\zadanie-java\\self-test-data\\advanced-allocation\\store.json";
-            jsonString = Json.readJson(src);
-            node = Json.parse(jsonString);
-            store = Json.fromJson(node, Store.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        //---this block reads orders list---//
-        try {
-            //src = "E:\\Programming\\Java\\zadanie-java\\self-test-data\\advanced-optimize-order-count\\orders.json";
+            store = parse(src, Store.class);
             src = "E:\\Programming\\Java\\zadanie-java\\self-test-data\\advanced-allocation\\orders.json";
-            jsonString = Json.readJson(src);
-            node = Json.parse(jsonString);
-            orders = Json.fromJson(node, Order[].class);
+            orders = parse(src, Order[].class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
