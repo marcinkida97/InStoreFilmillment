@@ -28,33 +28,25 @@ public class Main {
         //---calculating when picker must start to pick order to finish it on time---//
         Arrays.stream(orders).forEach(Order::setOrderPickingStartTime);
 
-        //---sort by pickingtime---//
-        //---sort by picking start time---//
+        //---sort by pickingTime and by orderPickingStartTime---//
         Arrays.sort(orders, new MyComparator());
 
         //---creating HashMap of pickers to easily choose the one which is available---//
-        HashMap<String, LocalTime> pickersAvailabilityHashMap = new HashMap<>();
+        Map<String, LocalTime> pickersHashMap = new HashMap<>();
         for(String picker : store.getPickers()) {
-            pickersAvailabilityHashMap.put(picker, store.getPickingStartTime());
+            pickersHashMap.put(picker, store.getPickingStartTime());
         }
 
         //---assigning orders to pickers---//
         for (Order order : orders) {
-            String earliestAvailablePickerKey = null;
-            LocalTime earliestAvailablePickerTime = null;
+            Map.Entry<String, LocalTime> picker = pickersHashMap.entrySet().stream()
+                    .min(Map.Entry.comparingByValue())
+                    .orElse(null);
 
-            for (Map.Entry<String, LocalTime> picker : pickersAvailabilityHashMap.entrySet()) {
-                if (earliestAvailablePickerTime == null || picker.getValue().isBefore(earliestAvailablePickerTime)) {
-                    earliestAvailablePickerKey = picker.getKey();
-                    earliestAvailablePickerTime = picker.getValue();
-                }
-            }
-
-            assert earliestAvailablePickerTime != null;
-            if (!earliestAvailablePickerTime.isAfter(order.getOrderPickingStartTime())) {
-                System.out.println(earliestAvailablePickerKey + " " + order.getOrderId() + " " + earliestAvailablePickerTime);
-                LocalTime newPickerTime = earliestAvailablePickerTime.plus(order.getPickingTime());
-                pickersAvailabilityHashMap.put(earliestAvailablePickerKey, newPickerTime);
+            if (!picker.getValue().isAfter(order.getOrderPickingStartTime())) {
+                System.out.println(picker.getKey() + " " + order.getOrderId() + " " + picker.getValue());
+                LocalTime newPickerTime = picker.getValue().plus(order.getPickingTime());
+                pickersHashMap.replace(picker.getKey(), newPickerTime);
             }
         }
     }
